@@ -1,6 +1,6 @@
 
 
-  <h1 align="center">STORE APP</h1>
+  <h1 align="center">RESTAURANT SEARCH APP</h1>
 <p align="center" >
 <img src="./gifs/GalaxyS10.gif"  height="700"  />
 <img src="./gifs/Iphone12.gif"  height="700"  />
