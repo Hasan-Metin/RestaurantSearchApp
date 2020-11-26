@@ -31,7 +31,7 @@ const RestaurantList = (props) => {
     const filteredRestaurantList = originalRestaurantList.filter(
       (restaurant) => {
         const searchText = value.toLowerCase();
-        const findText = restaurant.name.toLoweriCase();
+        const findText = restaurant.name.toLowerCase();
         return findText.indexOf(searchText) > -1;
       },
     );
