@@ -7,29 +7,22 @@ import {
   Dimensions,
 } from 'react-native';
 
-/*{
-    "id": 107257,
-    "name": "Las Tablas Colombian Steak House",
-    "address": "2942 N Lincoln Ave",
-    "city": "Chicago",
-    "state": "IL",
-    "area": "Chicago / Illinois",
-    "postal_code": "60657",
-    "country": "US",
-    "phone": "7738712414",
-    "lat": 41.935137,
-    "lng": -87.662815,
-    "price": 2,
-    "reserve_url": "http://www.opentable.com/single.aspx?rid=107257",
-    "mobile_reserve_url": "http://mobile.opentable.com/opentable/?restId=107257",
-    "image_url": "https://www.opentable.com/img/restimages/107257.jpg"
-  }*/
-
 const RestaurantItem = (props) => {
+  const {
+    restaurant: {restaurant},
+  } = props;
   return (
     <TouchableOpacity style={styles.container} onPress={props.onSelect}>
-      <Image style={styles.image} source={{uri: props.restaurant.image_url}} />
-      <Text style={styles.name}>{props.restaurant.name}</Text>
+      <Image
+        style={styles.image}
+        source={{
+          uri:
+            restaurant.thumb && restaurant.featured_image
+              ? restaurant.thumb && restaurant.featured_image
+              : 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80',
+        }}
+      />
+      <Text style={styles.name}>{restaurant.name}</Text>
     </TouchableOpacity>
   );
 };

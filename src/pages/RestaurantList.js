@@ -1,37 +1,50 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, View, SafeAreaView, FlatList} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  SafeAreaView,
+  FlatList,
+  ActivityIndicator,
+  Dimensions,
+} from 'react-native';
 import axios from 'axios';
 
 import {RestaurantItem, Banner, SearchBar} from '../components';
 
-const baseApiEndpoint = 'http://opentable.herokuapp.com/api';
+const baseApiEndpoint = 'https://developers.zomato.com/api/v2.1/search';
 let originalRestaurantList;
 
 const RestaurantList = (props) => {
   const {selectedCity} = props.route.params;
 
   const [restaurantList, setRestaurantList] = useState([]);
+  const [isLoading, setLoading] = useState(true);
 
   const fetchRestaurantData = async () => {
-    const {data} = await axios.get(`${baseApiEndpoint}` + '/restaurants', {
-      params: {
-        city: selectedCity,
+    const {data} = await axios({
+      method: 'GET',
+      url: baseApiEndpoint,
+      headers: {
+        'user-key': '59a4eafdc4a721bacc7cfab8688273d1',
+        'content-type': 'application/json',
       },
+      params: {entity_id: selectedCity.cityId, entity_type: 'city'},
     });
+
     setRestaurantList(data.restaurants);
     originalRestaurantList = [...data.restaurants];
+    setLoading(false);
   };
-  console.log(originalRestaurantList);
 
   useEffect(() => {
     fetchRestaurantData();
-  }, []);
+  });
 
   function searchRestaurant(value) {
     const filteredRestaurantList = originalRestaurantList.filter(
       (restaurant) => {
         const searchText = value.toLowerCase();
-        const findText = restaurant.name.toLowerCase();
+        const findText = restaurant.restaurant.name.toLowerCase();
         return findText.indexOf(searchText) > -1;
       },
     );
@@ -50,17 +63,28 @@ const RestaurantList = (props) => {
   return (
     <SafeAreaView>
       <View>
-        <Banner bannerText={`RESTAURANTS OF ${selectedCity.toUpperCase()}`} />
+        <Banner
+          bannerText={`RESTAURANTS OF ${selectedCity.cityName.toUpperCase()}`}
+        />
+
         <SearchBar
           placeholder="Search restaurant..."
           onSearch={searchRestaurant}
         />
-        <FlatList
-          data={restaurantList}
-          renderItem={renderRestaurantItem}
-          keyExtractor={(_, index) => index.toString()}
-          ItemSeparatorComponent={() => <View style={styles.seperator} />}
-        />
+        <View>
+          {isLoading ? (
+            <View style={styles.indicatorContainer}>
+              <ActivityIndicator size="large" color="#00ff00" />
+            </View>
+          ) : (
+            <FlatList
+              data={restaurantList}
+              renderItem={renderRestaurantItem}
+              keyExtractor={(_, index) => index.toString()}
+              ItemSeparatorComponent={() => <View style={styles.seperator} />}
+            />
+          )}
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -68,4 +92,12 @@ const RestaurantList = (props) => {
 
 export {RestaurantList};
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  seperator: {borderWidth: 2, borderColor: '#00b979'},
+  safe: {flex: 1},
+  indicatorContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: Dimensions.get('window').height * 0.85,
+  },
+});
