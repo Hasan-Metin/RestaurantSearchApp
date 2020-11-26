@@ -2,10 +2,10 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, SafeAreaView, FlatList} from 'react-native';
 import axios from 'axios';
 
-import {CityItem, SearchBar} from '../components';
+import {CityItem, SearchBar, Banner} from '../components';
 
 const baseApiEndpoint = 'http://opentable.herokuapp.com/api';
-let originalList;
+let originalCityList;
 
 const CityList = (props) => {
   const [cityList, setCityList] = useState([]);
@@ -13,7 +13,7 @@ const CityList = (props) => {
   const fetchCityData = async () => {
     const {data} = await axios.get(`${baseApiEndpoint}` + '/cities');
     setCityList(data.cities);
-    originalList = [...data.cities];
+    originalCityList = [...data.cities];
   };
 
   useEffect(() => {
@@ -24,13 +24,13 @@ const CityList = (props) => {
     <CityItem
       cityName={item}
       onSelect={() =>
-        props.navigation.navigate('Restaurants', {selectedCity: item.cityName})
+        props.navigation.navigate('Restaurants', {selectedCity: item})
       }
     />
   );
 
   function searchCity(value) {
-    const filteredCityList = originalList.filter((city) => {
+    const filteredCityList = originalCityList.filter((city) => {
       const searchText = value.toLowerCase();
       const findText = city.toLowerCase();
       return findText.startsWith(searchText);
@@ -41,6 +41,7 @@ const CityList = (props) => {
   return (
     <SafeAreaView>
       <View>
+        <Banner bannerText="CITIES" />
         <SearchBar
           placeholder="Search city..."
           onSearch={(value) => searchCity(value)}
