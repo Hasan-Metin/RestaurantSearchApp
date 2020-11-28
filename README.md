@@ -49,6 +49,9 @@ It is a prototype of a Demo Store Mobile App project. Customer can see all produ
     
  * Storage;
     - Read data from local json file,
+    
+ * Storage;
+    - Zomato Restaurant API
 
 
 ## Roadmap
