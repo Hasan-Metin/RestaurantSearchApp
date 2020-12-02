@@ -38,7 +38,7 @@ const RestaurantList = (props) => {
 
   useEffect(() => {
     fetchRestaurantData();
-  });
+  }, []);
 
   function searchRestaurant(value) {
     const filteredRestaurantList = originalRestaurantList.filter(
