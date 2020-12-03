@@ -23,16 +23,14 @@ const CityList = (props) => {
   const renderCityItem = ({item}) => (
     <CityItem
       cityName={item}
-      onSelect={() =>
-        props.navigation.navigate('Restaurants', {selectedCity: item})
-      }
+      onSelect={() => props.navigation.navigate('Restaurants')}
     />
   );
 
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.safe}>
-        <Banner bannerText=" FIND YOUR FAVOROITE RESTAURANT" />
+        <Banner bannerText=" FIND YOUR FAVORITE RESTAURANT" />
 
         <FlatList
           style={styles.safe}

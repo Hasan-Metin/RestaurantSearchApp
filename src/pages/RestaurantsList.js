@@ -14,8 +14,9 @@ import {RestaurantItem, Banner, SearchBar} from '../components';
 const baseApiEndpoint = 'https://developers.zomato.com/api/v2.1/search';
 let originalRestaurantList;
 
-const RestaurantList = (props) => {
-  const {selectedCity} = props.route.params;
+const RestaurantsList = (props) => {
+  //const {selectedCity} = props.route.params;
+  const selectedCity = {cityName: 'Adana', cityId: '385'};
 
   const [restaurantList, setRestaurantList] = useState([]);
   const [isLoading, setLoading] = useState(true);
@@ -90,7 +91,7 @@ const RestaurantList = (props) => {
   );
 };
 
-export {RestaurantList};
+export {RestaurantsList};
 
 const styles = StyleSheet.create({
   seperator: {borderWidth: 2, borderColor: '#00b979'},
