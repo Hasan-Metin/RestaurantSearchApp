@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   StyleSheet,
   View,
@@ -10,13 +10,15 @@ import {
 import axios from 'axios';
 
 import {RestaurantItem, Banner, SearchBar} from '../components';
+import Context from '../context/store';
 
 const baseApiEndpoint = 'https://developers.zomato.com/api/v2.1/search';
 let originalRestaurantList;
 
 const RestaurantsList = (props) => {
-  //const {selectedCity} = props.route.params;
-  const selectedCity = {cityName: 'Adana', cityId: '385'};
+  const {state, dispatch} = useContext(Context);
+
+  const {selectedCity} = state;
 
   const [restaurantList, setRestaurantList] = useState([]);
   const [isLoading, setLoading] = useState(true);

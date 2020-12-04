@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {StyleSheet, View, SafeAreaView, FlatList} from 'react-native';
 
 import {CityItem, Banner} from '../components';
+import Context from '../context/store';
 
 const cityList = [
   {cityName: 'Adana', cityId: '385'},
@@ -20,10 +21,15 @@ const cityList = [
 ];
 
 const CityList = (props) => {
+  const {state, dispatch} = useContext(Context);
+
   const renderCityItem = ({item}) => (
     <CityItem
       cityName={item}
-      onSelect={() => props.navigation.navigate('Restaurants')}
+      onSelect={() => {
+        dispatch({type: 'SET_SELECTED_CITY', payload: {...item}});
+        props.navigation.navigate('Restaurants');
+      }}
     />
   );
 
@@ -31,7 +37,6 @@ const CityList = (props) => {
     <SafeAreaView style={styles.safe}>
       <View style={styles.safe}>
         <Banner bannerText=" FIND YOUR FAVORITE RESTAURANT" />
-
         <FlatList
           style={styles.safe}
           data={cityList}
